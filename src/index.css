@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&family=Noto+Sans:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+  --font-sans: "Noto Sans", "Noto Sans Arabic", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-urdu: "Noto Sans Arabic", "Noto Naskh Arabic", "Urdu Typesetting", Tahoma, "Segoe UI", sans-serif;
+  --type-small: 0.76rem;
+  --type-body: 0.96rem;
+  --type-title: 1.28rem;
+  --type-display: 3.35rem;
+  color: #121826;
+  background: #eef2f6;
+  font-family: var(--font-sans);
+  font-size: 100%;
+  font-synthesis: none;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+:where([lang="ur"], [dir="rtl"]) {
+  font-family: var(--font-urdu);
+}
+
+body {
+  font-size: var(--type-body);
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  letter-spacing: 0;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p {
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  font-size: var(--type-display);
+  line-height: 1.02;
+}
+
+h2 {
+  font-size: var(--type-title);
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: var(--type-title);
+  line-height: 1.3;
+}
+
+@media (max-width: 520px) {
+  :root {
+    --type-display: 2.45rem;
+    --type-title: 1.18rem;
+  }
+}
