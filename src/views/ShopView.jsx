@@ -248,6 +248,23 @@ function ShopView({
       meta: t('shop.genuineBadge'),
     },
   ]
+  const trustRibbon = (
+    <section className="trustRibbon" aria-label={t('shop.trustSectionLabel')}>
+      {trustHighlights.map((item) => {
+        const Icon = item.icon
+
+        return (
+          <article className="trustCard" key={item.title}>
+            <Icon size={20} />
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          </article>
+        )
+      })}
+    </section>
+  )
 
   useEffect(() => {
     if (!isHomeMode || typeof window === 'undefined') return undefined
@@ -336,22 +353,6 @@ function ShopView({
             <span className="heroMediaBadge heroMediaBadgeTop">{t('shop.genuineBadge')}</span>
             <span className="heroMediaBadge heroMediaBadgeBottom">{t('shop.refundBadge')}</span>
           </div>
-        </section>
-
-        <section className="trustRibbon" aria-label={t('shop.trustSectionLabel')}>
-          {trustHighlights.map((item) => {
-            const Icon = item.icon
-
-            return (
-              <article className="trustCard" key={item.title}>
-                <Icon size={20} />
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </div>
-              </article>
-            )
-          })}
         </section>
 
         <div className="catalogHeader">
@@ -534,6 +535,8 @@ function ShopView({
             )}
           </>
         )}
+
+        {trustRibbon}
       </section>
     </section>
   )

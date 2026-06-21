@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
-import { ArrowLeft, RefreshCw } from 'lucide-react'
-import { Navigate, Route, Routes, matchPath, useLocation, useNavigate } from 'react-router-dom'
+import {
+  ArrowLeft,
+  ChevronDown,
+  Globe,
+  RefreshCw,
+} from 'lucide-react'
+import { Link, Navigate, Route, Routes, matchPath, useLocation, useNavigate } from 'react-router-dom'
 import './App.css'
 import ImageZoomDialog from './components/ImageZoomDialog'
 import Topbar from './components/Topbar'
@@ -61,6 +66,51 @@ const pagePaths = {
   checkout: '/checkout',
   orders: '/orders',
 }
+
+const footerSocialHandles = [
+  {
+    network: 'Instagram',
+    handle: '@bulkat.pk',
+    badge: 'IG',
+    href: 'https://www.instagram.com/bulkat.pk',
+  },
+  {
+    network: 'Facebook',
+    handle: '@BulkatOfficial',
+    badge: 'FB',
+    href: 'https://www.facebook.com/BulkatOfficial',
+  },
+  {
+    network: 'TikTok',
+    handle: '@bulkat.pk',
+    badge: 'TT',
+    href: 'https://www.tiktok.com/@bulkat.pk',
+  },
+  {
+    network: 'X',
+    handle: '@BulkatPK',
+    badge: 'X',
+    href: 'https://x.com/BulkatPK',
+  },
+  {
+    network: 'YouTube',
+    handle: '@BulkatPK',
+    badge: 'YT',
+    href: 'https://www.youtube.com/@BulkatPK',
+  },
+  {
+    network: 'LinkedIn',
+    handle: '/company/bulkat',
+    badge: 'IN',
+    href: 'https://www.linkedin.com/company/bulkat',
+  },
+  {
+    network: 'WhatsApp',
+    handle: '+92 300 111 2855',
+    badge: 'WA',
+    href: 'https://wa.me/923001112855',
+  },
+]
 
 const authModePaths = {
   login: '/account/login',
@@ -440,6 +490,93 @@ function App() {
   const defaultAdminTab = allowedAdminTabs[0] || 'catalog'
   const defaultAdminPath = adminTabPaths[defaultAdminTab] || adminTabPaths.catalog
   const canAdmin = isSuperAdmin || userPermissions.some((permission) => adminPermissions.includes(permission))
+  const footerPhoneNumbers = [
+    {
+      label: t('footer.customerCare'),
+      value: '+92 300 111 2855',
+      href: 'tel:+923001112855',
+    },
+    {
+      label: t('footer.ordersDesk'),
+      value: '+92 321 222 2855',
+      href: 'tel:+923212222855',
+    },
+  ]
+  const footerFaqs = [
+    {
+      question: t('footer.faqRefundQuestion'),
+      answer: t('footer.faqRefundAnswer'),
+    },
+    {
+      question: t('footer.faqDeliveryQuestion'),
+      answer: t('footer.faqDeliveryAnswer'),
+    },
+    {
+      question: t('footer.faqBulkQuestion'),
+      answer: t('footer.faqBulkAnswer'),
+    },
+    {
+      question: t('footer.faqSupportQuestion'),
+      answer: t('footer.faqSupportAnswer'),
+    },
+  ]
+  const footerColumns = [
+    {
+      title: t('footer.columnShop'),
+      links: [
+        { label: t('footer.shopLink'), to: pagePaths.shop },
+        { label: t('footer.bulkDealsLink'), to: pagePaths.shop },
+        { label: t('footer.cartLink'), to: pagePaths.cart },
+        { label: t('footer.checkoutLink'), to: pagePaths.checkout },
+        { label: t('footer.ordersLink'), to: pagePaths.orders },
+      ],
+    },
+    {
+      title: t('footer.columnSupport'),
+      links: [
+        {
+          label: t('footer.location'),
+          href: 'https://www.google.com/maps/search/?api=1&query=Lahore%20Punjab%20Pakistan',
+          external: true,
+        },
+        ...footerPhoneNumbers.map((phone) => ({ label: `${phone.label}: ${phone.value}`, href: phone.href })),
+        { label: 'WhatsApp: +92 300 111 2855', href: 'https://wa.me/923001112855', external: true },
+        { label: 'support@bulkat.pk', href: 'mailto:support@bulkat.pk' },
+      ],
+    },
+    {
+      title: t('footer.columnCompany'),
+      links: [
+        { label: t('footer.privacyLink'), href: '#footer-privacy' },
+        { label: t('footer.legalLink'), href: '#footer-legal' },
+        { label: t('footer.sitemapLink'), href: '#footer-sitemap' },
+        { label: t('footer.hours'), href: '#footer-hours' },
+      ],
+    },
+    {
+      title: t('footer.columnFaqs'),
+      links: footerFaqs.map((faq) => ({ label: faq.question, href: '#footer-faqs' })),
+    },
+  ]
+  const footerContactItems = [
+    {
+      label: t('footer.locationLabel'),
+      value: t('footer.location'),
+      href: 'https://www.google.com/maps/search/?api=1&query=Lahore%20Punjab%20Pakistan',
+      external: true,
+    },
+    ...footerPhoneNumbers.map((phone) => ({
+      label: phone.label,
+      value: phone.value,
+      href: phone.href,
+    })),
+    {
+      label: 'WhatsApp',
+      value: '+92 300 111 2855',
+      href: 'https://wa.me/923001112855',
+      external: true,
+    },
+  ]
 
   useEffect(() => {
     document.title = getPageTitle(location.pathname, selectedProduct, orderResult, t, language)
@@ -704,6 +841,99 @@ function App() {
           <Route path="*" element={<Navigate to={pagePaths.shop} replace />} />
         </Routes>
       </main>
+
+      <footer className="siteFooter" aria-label={t('footer.label')}>
+        <div className="siteFooterInner">
+          <section className="footerBrandPanel">
+            <Link className="footerWordmark" to={pagePaths.shop} aria-label={t('brand')}>
+              <span className="footerWordmarkText">BULKAT</span>
+              <span className="footerWordmarkMeta">{t('footer.brandMeta')}</span>
+            </Link>
+            <p className="footerTagline">{t('footer.tagline')}</p>
+            <div className="footerContactStrip" aria-label={t('footer.contactTitle')}>
+              {footerContactItems.map((item) => (
+                <a
+                  className="footerContactItem"
+                  href={item.href}
+                  key={`${item.label}-${item.value}`}
+                  rel={item.external ? 'noreferrer' : undefined}
+                  target={item.external ? '_blank' : undefined}
+                >
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                </a>
+              ))}
+            </div>
+            <div className="footerSocialGrid" aria-label={t('footer.socialTitle')}>
+              {footerSocialHandles.map((social) => (
+                <a className="footerSocialLink" href={social.href} key={social.network} target="_blank" rel="noreferrer">
+                  <span className="footerSocialBadge">{social.badge}</span>
+                  <span className="footerSocialText">
+                    <strong>{social.network}</strong>
+                    <small>{social.handle}</small>
+                  </span>
+                </a>
+              ))}
+            </div>
+            <button
+              className="footerLanguageSelect"
+              type="button"
+              onClick={() => setLanguage(language === 'en' ? 'ur' : 'en')}
+              aria-label={t('nav.switchLanguage')}
+            >
+              <Globe size={20} />
+              <span>{language === 'en' ? 'English' : 'Urdu'}</span>
+              <ChevronDown size={20} />
+            </button>
+            <div className="footerLegalLine" id="footer-legal">
+              <span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>
+              <a href="#footer-privacy">{t('footer.legalLink')}</a>
+              <a href="#footer-sitemap">{t('footer.sitemapLink')}</a>
+            </div>
+          </section>
+
+          <nav className="footerColumnGrid" aria-label={t('footer.essentialsTitle')} id="footer-sitemap">
+            {footerColumns.map((column) => (
+              <section className="footerColumn" key={column.title}>
+                <h2>{column.title}</h2>
+                <div className="footerLinkList">
+                  {column.links.map((link) =>
+                    link.to ? (
+                      <Link key={link.label} to={link.to}>
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        key={link.label}
+                        rel={link.external ? 'noreferrer' : undefined}
+                        target={link.external ? '_blank' : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    ),
+                  )}
+                </div>
+              </section>
+            ))}
+          </nav>
+
+          <div className="footerFinePrint">
+            <p id="footer-privacy">
+              <strong>{t('footer.policyTitle')}</strong>
+              {t('footer.policyText')}
+            </p>
+            <p id="footer-hours">
+              <strong>{t('footer.hoursTitle')}</strong>
+              {t('footer.hours')} - {t('footer.serviceArea')}
+            </p>
+            <p id="footer-faqs">
+              <strong>{t('footer.faqTitle')}</strong>
+              {t('footer.faqSummary')}
+            </p>
+          </div>
+        </div>
+      </footer>
 
       {zoomImage && <ImageZoomDialog image={zoomImage} onClose={() => setZoomImage(null)} />}
       </div>
