@@ -111,7 +111,7 @@ const translations = {
       allProducts: 'All products',
       allProductsHint: 'Back to all shelves',
       eyebrow: 'Bulkat Assured',
-      heroTitle: 'Trusted buys. Better value.',
+      heroTitle: 'Buy More. Save More',
       heroTagline: 'Buy more. Save more.',
       heroText: 'Verified stock, clear prices, real support.',
       brandPledge: 'Every item is checked before it reaches your cart.',
