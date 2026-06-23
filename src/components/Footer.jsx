@@ -1,4 +1,3 @@
-import { ChevronDown, Globe } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../useI18n'
 import './Footer.css'
@@ -8,6 +7,7 @@ const footerPagePaths = {
   cart: '/cart',
   checkout: '/checkout',
   orders: '/orders',
+  account: '/account/login',
 }
 
 const footerSocialHandles = [
@@ -67,120 +67,72 @@ function FooterLink({ link }) {
   )
 }
 
-function Footer({ language = 'en', onLanguageChange }) {
+function Footer() {
   const { t } = useI18n()
-  const nextLanguage = language === 'en' ? 'ur' : 'en'
-  const currentLanguageLabel = language === 'en' ? 'English' : 'Urdu'
-  const footerPhoneNumbers = [
-    {
-      label: t('footer.customerCare'),
-      value: '+92 300 111 2855',
-      href: 'tel:+923001112855',
-    },
-    {
-      label: t('footer.ordersDesk'),
-      value: '+92 321 222 2855',
-      href: 'tel:+923212222855',
-    },
-  ]
-  const footerFaqs = [
-    t('footer.faqRefundQuestion'),
-    t('footer.faqDeliveryQuestion'),
-    t('footer.faqBulkQuestion'),
-    t('footer.faqSupportQuestion'),
-  ]
+  const brandName = t('brand').toUpperCase()
+  const brandLetters = brandName.split('')
   const footerColumns = [
     {
-      title: t('footer.columnShop'),
+      title: t('brand').toUpperCase(),
       links: [
         { label: t('footer.shopLink'), to: footerPagePaths.shop },
         { label: t('footer.bulkDealsLink'), to: footerPagePaths.shop },
         { label: t('footer.cartLink'), to: footerPagePaths.cart },
         { label: t('footer.checkoutLink'), to: footerPagePaths.checkout },
-        { label: t('footer.ordersLink'), to: footerPagePaths.orders },
+      ],
+    },
+    {
+      title: t('footer.columnAbout'),
+      links: [
+        { label: t('footer.verifiedProductsLink'), to: footerPagePaths.shop },
+        { label: t('footer.deliveryCoverageLink'), href: 'mailto:support@bulkat.pk?subject=Delivery%20coverage' },
+        { label: t('footer.workingHoursLink'), href: 'tel:+923001112855' },
+        { label: t('footer.sitemapLink'), href: '#footer-sitemap' },
       ],
     },
     {
       title: t('footer.columnSupport'),
       links: [
-        {
-          label: t('footer.location'),
-          href: 'https://www.google.com/maps/search/?api=1&query=Lahore%20Punjab%20Pakistan',
-          external: true,
-        },
-        ...footerPhoneNumbers.map((phone) => ({ label: `${phone.label}: ${phone.value}`, href: phone.href })),
-        { label: 'WhatsApp: +92 300 111 2855', href: 'https://wa.me/923001112855', external: true },
-        { label: 'support@bulkat.pk', href: 'mailto:support@bulkat.pk' },
+        { label: t('footer.contactUsLink'), href: 'mailto:support@bulkat.pk' },
+        { label: t('footer.faqsLink'), href: 'mailto:support@bulkat.pk?subject=FAQs' },
+        { label: t('footer.tradeLink'), href: 'https://wa.me/923001112855', external: true },
+        { label: t('footer.samplesLink'), href: 'mailto:support@bulkat.pk?subject=Samples%20request' },
       ],
     },
     {
-      title: t('footer.columnCompany'),
+      title: t('footer.columnAccount'),
       links: [
-        { label: t('footer.privacyLink'), href: 'mailto:support@bulkat.pk?subject=Privacy%20Policy' },
-        { label: t('footer.legalLink'), href: '#footer-legal' },
-        { label: t('footer.sitemapLink'), href: '#footer-sitemap' },
-        { label: t('footer.hours'), href: 'tel:+923001112855' },
+        { label: t('footer.myAccountLink'), to: footerPagePaths.account },
+        { label: t('footer.ordersLink'), to: footerPagePaths.orders },
+        { label: t('footer.checkoutLink'), to: footerPagePaths.checkout },
+        { label: t('footer.giftCardsLink'), href: 'mailto:support@bulkat.pk?subject=Gift%20cards' },
       ],
     },
-    {
-      title: t('footer.columnFaqs'),
-      links: footerFaqs.map((question) => ({
-        label: question,
-        href: `mailto:support@bulkat.pk?subject=${encodeURIComponent(question)}`,
-      })),
-    },
+  ]
+  const footerUtilityLinks = [
+    { label: t('footer.termsLink'), href: 'mailto:support@bulkat.pk?subject=Terms%20of%20Use' },
+    { label: t('footer.privacyLink'), href: 'mailto:support@bulkat.pk?subject=Privacy%20Policy' },
+    { label: t('footer.shippingLink'), href: 'mailto:support@bulkat.pk?subject=Shipping%20Policy' },
+    { label: t('footer.returnLink'), href: 'mailto:support@bulkat.pk?subject=Return%20Policy' },
   ]
 
   return (
     <footer className="siteFooter" aria-label={t('footer.label')}>
-      <div className="siteFooterInner">
-        <section className="footerBrandPanel">
-          <Link className="footerWordmark" to={footerPagePaths.shop} aria-label={t('brand')}>
-            <span className="footerBrandMark" aria-hidden="true">
-              {['B', 'U', 'L', 'K', 'A', 'T'].map((letter, index) => (
-                <span className="footerBrandLetter" key={`${letter}-${index}`}>
-                  {letter}
-                </span>
-              ))}
-              <span className="footerBrandEye footerBrandEyeLeft" />
-              <span className="footerBrandEye footerBrandEyeRight" />
-              <span className="footerBrandDot" />
-            </span>
-            <span className="footerWordmarkCopy">
-              <strong>{t('brand')}</strong>
-              <small>{t('footer.brandMeta')}</small>
-            </span>
-          </Link>
-          <p className="footerTagline">{t('footer.tagline')}</p>
-          <div className="footerSocialGrid" aria-label={t('footer.socialTitle')}>
-            {footerSocialHandles.slice(0, 5).map((social) => (
-              <a
-                aria-label={`${social.network}: ${social.handle}`}
-                className={`footerSocialLink footerSocialLink${social.badge}`}
-                href={social.href}
-                key={social.network}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="footerSocialGlyph" aria-hidden="true" />
-              </a>
-            ))}
-          </div>
-          <button
-            className="footerLanguageSelect"
-            type="button"
-            onClick={() => onLanguageChange?.(nextLanguage)}
-            aria-label={t('nav.switchLanguage')}
+      <div className="siteFooterContent">
+        <section className="footerNewsletter" aria-labelledby="footer-newsletter-title">
+          <h2 id="footer-newsletter-title">{t('footer.newsletterTitle')}</h2>
+          <form
+            className="footerSignupForm"
+            onSubmit={(event) => {
+              event.preventDefault()
+            }}
           >
-            <Globe size={20} />
-            <span>{currentLanguageLabel}</span>
-            <ChevronDown size={20} />
-          </button>
-          <div className="footerLegalLine" id="footer-legal">
-            <span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>
-            <a href="#footer-legal">{t('footer.legalLink')}</a>
-            <a href="#footer-sitemap">{t('footer.sitemapLink')}</a>
-          </div>
+            <label className="footerVisuallyHidden" htmlFor="footer-email">
+              {t('footer.newsletterLabel')}
+            </label>
+            <input id="footer-email" name="email" placeholder={t('footer.newsletterPlaceholder')} type="email" />
+            <button type="submit">{t('footer.signupButton')}</button>
+          </form>
         </section>
 
         <nav className="footerColumnGrid" aria-label={t('footer.essentialsTitle')} id="footer-sitemap">
@@ -196,6 +148,38 @@ function Footer({ language = 'en', onLanguageChange }) {
           ))}
         </nav>
       </div>
+
+      <div className="footerMetaRow">
+        <div className="footerLegalLine" id="footer-legal">
+          <span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>
+          {footerUtilityLinks.map((link) => (
+            <FooterLink key={link.label} link={link} />
+          ))}
+        </div>
+
+        <div className="footerSocialGrid" aria-label={t('footer.socialTitle')}>
+          {footerSocialHandles.slice(0, 5).map((social) => (
+            <a
+              aria-label={`${social.network}: ${social.handle}`}
+              className={`footerSocialLink footerSocialLink${social.badge}`}
+              href={social.href}
+              key={social.network}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="footerSocialGlyph" aria-hidden="true" />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <Link className="footerMassiveBrand" to={footerPagePaths.shop} aria-label={t('brand')}>
+        {brandLetters.map((letter, index) => (
+          <span className="footerBrandLetter" key={`${letter}-${index}`} aria-hidden="true">
+            {letter}
+          </span>
+        ))}
+      </Link>
     </footer>
   )
 }
